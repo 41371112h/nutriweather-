@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>NutriWeather — 天氣 × 減脂助手</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <h1>NutriWeather</h1>
+      <p class="subtitle">根據天氣與你的目標推薦每天三餐 🍱</p>
+      <nav class="nav">
+        <a href="#home">首頁</a>
+        <a href="#today">今日推薦</a>
+        <a href="#recipe-detail">食譜詳情</a>
+        <a href="#shopping-list">採買清單</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 🏠 首頁：輸入身高、體重、目標、地區 -->
+    <section id="home" class="card section">
+      <h2>個人設定</h2>
+      <p class="section-desc">先輸入你的基本資訊，之後系統會根據這些資料幫你算餐單（目前是假的，之後再接 JS）。</p>
+
+      <form class="form-grid">
+        <div class="form-group">
+          <label for="gender">性別</label>
+          <select id="gender" name="gender">
+            <option value="">請選擇</option>
+            <option value="female">女</option>
+            <option value="male">男</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="age">年齡</label>
+          <input type="number" id="age" name="age" placeholder="例如：20" />
+        </div>
+
+        <div class="form-group">
+          <label for="height">身高（cm）</label>
+          <input type="number" id="height" name="height" placeholder="例如：165" />
+        </div>
+
+        <div class="form-group">
+          <label for="weight">體重（kg）</label>
+          <input type="number" id="weight" name="weight" placeholder="例如：60" />
+        </div>
+
+        <div class="form-group">
+          <label for="goal">目標</label>
+          <select id="goal" name="goal">
+            <option value="">請選擇</option>
+            <option value="lose">減脂</option>
+            <option value="maintain">維持</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="location">地區</label>
+          <input type="text" id="location" name="location" placeholder="例如：Taipei, Tokyo..." />
+        </div>
+
+        <button type="button" id="save-profile-btn" class="btn primary-btn">
+          儲存設定（之後接 JS）
+        </button>
+
+      </form>
+    </section>
+
+    <!-- 🌤 今日推薦頁：三張卡片（假資料） -->
+    <section id="today" class="section">
+      <h2>今日推薦餐單（假資料 Demo）</h2>
+      <p class="section-desc">
+        目前先用寫死的假資料，等組員 B API 好之後再換成動態資料。
+      </p>
+
+      <div class="today-actions">
+        <button type="button" id="generate-demo-btn" class="btn primary-btn">
+          使用我的設定產生今日推薦（假資料）
+        </button>
+        <p id="today-summary" class="today-summary">
+          目前顯示的是預設示意餐單，你可以先在上面「個人設定」輸入資料再按這個按鈕。
+        </p>
+      </div>
+
+
+      <div class="weather-card card">
+        <h3>今日天氣（範例）</h3>
+        <p>地區：<span id="weather-location">Taipei</span></p>
+        <p>
+            溫度：
+            <span id="weather-temp">28</span>°C
+        </p>
+        <p>
+            狀態：
+            <span id="weather-desc">局部多雲</span>
+        </p>
+        <p class="weather-hint">（目前為假資料，之後會改成即時天氣）</p>
+       </div>
+
+
+      <div class="meal-grid">
+        <!-- 早餐卡片 -->
+        <article class="card meal-card" id="meal-breakfast-card">
+            <h3 id="meal-breakfast-title">早餐 — 優格水果穀片碗</h3>
+            <p class="kcal" id="meal-breakfast-kcal">約 350 kcal · 高蛋白</p>
+            <p class="desc" id="meal-breakfast-desc">
+            希臘優格搭配莓果與燕麥，冰冰涼涼，適合炎熱早晨。
+            </p>
+            <button
+            class="btn secondary-btn meal-detail-btn"
+            data-meal="breakfast"
+            >
+            查看詳情（假）
+            </button>
+        </article>
+
+        <!-- 午餐卡片 -->
+        <article class="card meal-card" id="meal-lunch-card">
+            <h3 id="meal-lunch-title">午餐 — 雞胸沙拉配全麥麵包</h3>
+            <p class="kcal" id="meal-lunch-kcal">約 500 kcal · 高蛋白 · 低油</p>
+            <p class="desc" id="meal-lunch-desc">
+            烤雞胸搭配生菜、番茄、橄欖油油醋，清爽不負擔。
+            </p>
+            <button
+            class="btn secondary-btn meal-detail-btn"
+            data-meal="lunch"
+            >
+            查看詳情（假）
+            </button>
+        </article>
+
+        <!-- 晚餐卡片 -->
+        <article class="card meal-card" id="meal-dinner-card">
+            <h3 id="meal-dinner-title">晚餐 — 蒜香鮭魚配溫蔬菜</h3>
+            <p class="kcal" id="meal-dinner-kcal">約 550 kcal · 好油脂</p>
+            <p class="desc" id="meal-dinner-desc">
+            鮭魚搭配燙青花菜與地瓜，暖胃又有飽足感。
+            </p>
+            <button
+            class="btn secondary-btn meal-detail-btn"
+            data-meal="dinner"
+            >
+            查看詳情（假）
+            </button>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- 🍽 食譜詳情頁：placeholder -->
+   <section id="recipe-detail" class="card section">
+        <h2>食譜詳情（範例）</h2>
+        <p class="section-desc">
+            這裡之後會根據使用者點選的餐點，顯示詳細食譜。現在先放一個示意的假資料。
+        </p>
+
+        <div class="recipe-layout">
+            <div class="recipe-image">
+            <img
+                id="recipe-image"
+                src="https://via.placeholder.com/400x250?text=Recipe+Image"
+                alt="食譜示意圖"
+            />
+            </div>
+            <div class="recipe-info">
+            <h3 id="recipe-title">雞胸沙拉配全麥麵包</h3>
+            <p class="kcal" id="recipe-kcal">一份約 500 kcal · 高蛋白 · 低油</p>
+
+            <h4>食材（示意）</h4>
+            <ul id="recipe-ingredients">
+                <li>雞胸肉 120g</li>
+                <li>生菜 50g</li>
+                <li>小番茄 5 顆</li>
+                <li>全麥麵包 1 片</li>
+                <li>橄欖油 1 小匙</li>
+                <li>檸檬汁、鹽、胡椒 適量</li>
+            </ul>
+
+            <h4>步驟（示意）</h4>
+            <ol id="recipe-steps">
+                <li>雞胸肉以鹽胡椒醃 10 分鐘，煎或烤至熟。</li>
+                <li>生菜洗淨瀝乾，小番茄對半切。</li>
+                <li>將蔬菜放入碗中，加入切片雞胸。</li>
+                <li>淋上橄欖油與檸檬汁，拌勻即可。</li>
+                <li>搭配烤過的全麥麵包食用。</li>
+            </ol>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 🛒 採買清單頁：空白模板 -->
+    <section id="shopping-list" class="card section">
+      <h2>今日採買清單</h2>
+      <p class="section-desc">
+        之後會由系統自動把三餐食材整合在一起。現在先用手動輸入的樣子做版面。
+      </p>
+
+      <div class="shopping-layout">
+        <div class="shopping-input">
+          <label for="shopping-notes">備註 / 自己想加的東西</label>
+          <textarea id="shopping-notes" placeholder="之後會自動產生，現在可以手動打看看範例：&#10;- 雞胸肉 300g&#10;- 生菜一包&#10;- 地瓜 2 顆"></textarea>
+        </div>
+
+        <div class="shopping-list">
+          <h4>示意清單</h4>
+          <ul>
+            <li>雞胸肉 300g</li>
+            <li>希臘優格 1 盒</li>
+            <li>綜合莓果冷凍包 1 包</li>
+            <li>全麥吐司 1 條</li>
+            <li>生菜沙拉包 1 份</li>
+            <li>地瓜 2 顆</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>NutriWeather — Demo Prototype · 由 雙人小組 製作</p>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>
