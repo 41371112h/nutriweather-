@@ -1,4 +1,5 @@
 # nutriweather-  
+試算表：https://docs.google.com/spreadsheets/d/1w0Ne3QLCxfL2HSScn5-tFEEO4V-Z8SCOL42_HhTaJNI/edit?usp=sharing
 
 NutriWeather — 後端串接指南（組員 B 必看）
 
