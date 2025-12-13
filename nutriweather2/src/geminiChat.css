@@ -1,0 +1,152 @@
+:root {
+  --gradient-start: #4A90C0;   /* 左藍 */
+  --gradient-mid:   #57A7A9;   /* 過渡色 */
+  --gradient-end:   #4CB380;   /* 右綠 */
+
+  --brand-blue: #4A90C0;
+  --brand-green: #4CB380;
+
+  --bg: #f8f9f2;
+  --text-dark: #333;
+  --text-light: #fff;
+}
+
+/* ----------------------------- */
+/* 懸浮球（漸層版） */
+/* ----------------------------- */
+.floating-ball {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  width: 68px;
+  height: 68px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  border-radius: 50%;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: transform 0.18s ease;
+  z-index: 9999;
+}
+
+.floating-ball:hover {
+  transform: scale(1.08);
+}
+
+/* ----------------------------- */
+/* Chat Panel */
+/* ----------------------------- */
+.chat-panel {
+  position: fixed;
+  right: 28px;
+  bottom: 110px;
+  width: 360px;
+  height: 480px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+/* Header：使用你給的漸層 */
+.chat-header {
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+  color: white;
+  padding: 14px 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* ----------------------------- */
+/* Bubbles */
+/* ----------------------------- */
+.chat-body {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+.bubble-row {
+  display: flex;
+  margin: 8px 0;
+}
+
+.bubble-row.left { justify-content: flex-start; }
+.bubble-row.right { justify-content: flex-end; }
+
+.bubble {
+  max-width: 78%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  word-break: break-word;
+}
+
+/* User 氣泡（藍） */
+.bubble.user {
+  background: var(--brand-blue);
+  color: white;
+}
+
+/* Bot 氣泡（亮白 + 淺綠邊框） */
+.bubble.bot {
+  background: #ffffff;
+  color: var(--text-dark);
+  border: 1.5px solid var(--brand-green);
+}
+
+/* ----------------------------- */
+/* Input Area */
+/* ----------------------------- */
+.chat-input-area {
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  background: white;
+  border-top: 1px solid #ddd;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+}
+
+/* 送出按鈕也用漸層 */
+.chat-input-area button {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.chat-input-area button:hover {
+  opacity: 0.9;
+}

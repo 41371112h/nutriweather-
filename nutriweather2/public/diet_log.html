@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriWeather</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header class="site-header" style="
+      background: linear-gradient(90deg, #5c7cfa 0%, #40c057 100%);
+      padding: 15px 0;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+  ">
+    
+    <div class="container header-content" style="
+      max-width: 980px; 
+      margin: 0 auto; 
+      padding: 0 20px; 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    ">
+      
+      <div class="header-left">
+        <h1 style="margin: 0; color: white; font-size: 1.5rem; font-weight: bold;">NutriWeather</h1>
+        <p class="subtitle" style="margin: 0; color: rgba(255,255,255,0.9); font-size: 0.85rem;">根據天氣與你的目標推薦每天三餐</p>
+      </div>
+      
+      <nav class="nav" style="display: flex; gap: 12px; align-items: center;">
+        <a href="index.html" style="
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(255,255,255,0.6); 
+          padding: 6px 18px;
+          border-radius: 50px;
+          font-size: 0.95rem;
+          background: rgba(255,255,255,0.15);      
+          transition: background 0.2s;
+        ">首頁</a>
+
+        <a href="diet_log.html" style="
+          text-decoration: none;
+          color: white;
+          border: 2px solid white;       
+          padding: 6px 18px;
+          border-radius: 50px;
+          font-size: 0.95rem;
+          font-weight: bold;             
+          background: transparent;       
+          transition: background 0.2s;
+        ">飲食日記</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-container" style="max-width: 980px; margin: 40px auto; padding: 0 20px;">
+    <div style="margin-bottom: 20px;">
+       <h2 class="page-title">我的飲食紀錄本</h2>
+    </div>
+
+    <div class="card">
+      <form id="logForm">
+        <div class="recommend-box">
+            <label class="recommend-label">快速帶入今日推薦菜單：</label>
+            <select id="recommendSelect">
+                <option value="">-- 讀取中... --</option>
+            </select>
+            <div id="noDataHint">
+              (⚠️ 尚未在首頁生成推薦資料，請先至首頁獲取建議)
+            </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>紀錄日期 (補登用)</label>
+            <input type="date" id="formDateInput" required>
+          </div>
+          <div class="form-group">
+            <label>餐別</label>
+            <select id="mealInput">
+              <option value="早餐">早餐</option>
+              <option value="午餐">午餐</option>
+              <option value="晚餐">晚餐</option>
+              <option value="點心">點心</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>食物名稱</label>
+            <input type="text" id="foodInput" placeholder="例如：雞腿便當" required>
+          </div>
+          <div class="form-group">
+            <label>熱量 (kcal)</label>
+            <input type="number" id="caloriesInput" placeholder="800" required>
+          </div>
+        </div>
+        <button type="submit" id="submitBtn" class="btn primary-btn">＋ 新增</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="history-header">
+        <div class="history-controls">
+          <h2>歷史紀錄明細</h2>
+          <input type="date" id="historyDateInput" title="選擇要查看的日期">
+        </div>
+        <span>當日總攝取：<span id="totalDisplay" class="total-kcal">0</span> kcal</span>
+      </div>
+      
+      <div id="loading" class="loading">⏳ 正在從雲端讀取資料...</div>
+
+      <div class="log-table-container">
+        <table id="logTable">
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>餐別</th>
+              <th>食物</th>
+              <th>熱量</th>
+            </tr>
+          </thead>
+          <tbody id="logBody"></tbody>
+        </table>
+        <p id="emptyMsg" style="text-align: center; color: #999; margin-top: 20px; display:none;">暫無紀錄</p>
+      </div>
+    </div>
+
+    <div class="card">
+        <div class="history-header">
+            <div class="history-controls">
+                <h2>一週熱量統計</h2>
+                <input type="date" id="chartDateInput" title="選擇該週的任意一天">
+            </div>
+            <span style="font-size: 0.9rem; color: #666;">顯示所選日期該週 (週一 ~ 週日) 的攝取量</span>
+        </div>
+        <div style="position: relative; height: 300px; width: 100%;">
+            <canvas id="weekChart"></canvas>
+        </div>
+    </div>
+    <div class="card">
+      <div class="history-header">
+        <div class="history-controls">
+          <h2>一週飲水統計</h2>
+          <input type="date" id="waterChartDateInput" title="選擇該週的任意一天">
+        </div>
+        <span style="font-size: 0.9rem; color: #666;">
+          顯示所選日期該週 (週一 ~ 週日) 的飲水量
+        </span>
+      </div>
+      <div style="position: relative; height: 300px; width: 100%;">
+        <canvas id="waterWeekChart"></canvas>
+      </div>
+    </div>
+
+
+  </main>
+
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyzR25zI3BButzJDKCcyfmNWBU7tmjNPnXRPzKHXuCyyuT31vra1pQvgNYQx0NXT4-ewg/exec"; 
+
+    let allDietLogs = [];
+    let myChart = null; 
+    let waterChart = null;
+
+    // DOM 元素
+    const formDateInput = document.getElementById('formDateInput');
+    const historyDateInput = document.getElementById('historyDateInput');
+    const chartDateInput = document.getElementById('chartDateInput');
+    const waterChartDateInput = document.getElementById('waterChartDateInput');
+
+
+    // --- 初始化 ---
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    
+    formDateInput.value = todayStr;
+    historyDateInput.value = todayStr;
+    chartDateInput.value = todayStr; 
+    waterChartDateInput.value = todayStr;
+
+
+    // 監聽器
+    historyDateInput.addEventListener('change', renderDailyView);
+    chartDateInput.addEventListener('change', () => renderWeekChart(chartDateInput.value));
+    waterChartDateInput.addEventListener('change', () => renderWaterWeekChart(waterChartDateInput.value));
+
+    loadLogsFromSheet();     
+    initRecommendDropdown(); 
+
+    // --- 讀取 Google Sheet ---
+    function loadLogsFromSheet() {
+        if (!GAS_URL) return;
+        const loading = document.getElementById('loading');
+        const emptyMsg = document.getElementById('emptyMsg');
+        
+        document.getElementById('logBody').innerHTML = '';
+        loading.style.display = 'block';
+        emptyMsg.style.display = 'none';
+
+        fetch(`${GAS_URL}?action=getDietLogs`)
+            .then(res => res.json())
+            .then(json => {
+                loading.style.display = 'none';
+                if (json.status === 'success') {
+                    allDietLogs = json.data;
+                } else {
+                    allDietLogs = [];
+                }
+                renderDailyView();
+                renderWeekChart(chartDateInput.value);
+                renderWaterWeekChart(waterChartDateInput.value);
+
+            })
+            .catch(err => {
+                loading.style.display = 'none';
+                emptyMsg.innerText = "讀取失敗";
+                emptyMsg.style.display = 'block';
+                console.error(err);
+            });
+    }
+
+    // --- 渲染每日列表 ---
+    function renderDailyView() {
+      const selectedDate = historyDateInput.value; 
+      const tbody = document.getElementById('logBody');
+      const totalDisplay = document.getElementById('totalDisplay');
+      const emptyMsg = document.getElementById('emptyMsg');
+      
+      tbody.innerHTML = '';
+      
+      const dailyLogs = allDietLogs.filter(log => log.date === selectedDate);
+      
+      let total = 0;
+
+      if (dailyLogs.length === 0) {
+          emptyMsg.innerText = `${selectedDate} 尚無紀錄`;
+          emptyMsg.style.display = 'block';
+      } else {
+          emptyMsg.style.display = 'none';
+          dailyLogs.forEach(log => {
+            const cal = Number(log.calories) || 0;
+            total += cal;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${log.date}</td>
+              <td>${log.meal}</td>
+              <td>${log.food}</td>
+              <td style="color:#4263eb; font-weight:bold;">${cal}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+      }
+      totalDisplay.innerText = total;
+    }
+
+    // --- 渲染一週圖表 ---
+    function renderWeekChart(selectedDateStr) {
+        const selectedDate = new Date(selectedDateStr);
+        const day = selectedDate.getDay(); 
+        const diff = selectedDate.getDate() - day + (day === 0 ? -6 : 1); 
+        
+        const monday = new Date(selectedDate.setDate(diff));
+        
+        const weekDates = [];
+        const weekLabels = []; 
+        const weekData = [];  
+        const weekDaysName = ["週一", "週二", "週三", "週四", "週五", "週六", "週日"];
+
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(monday);
+            d.setDate(monday.getDate() + i);
+            const dStr = d.toISOString().split('T')[0];
+            weekDates.push(dStr);
+            
+            const md = (d.getMonth() + 1) + "/" + d.getDate();
+            weekLabels.push(`${md} ${weekDaysName[i]}`);
+        }
+
+        weekDates.forEach(dateStr => {
+            const dailyTotal = allDietLogs
+                .filter(log => log.date === dateStr)
+                .reduce((sum, log) => sum + (Number(log.calories) || 0), 0);
+            weekData.push(dailyTotal);
+        });
+
+        const ctx = document.getElementById('weekChart').getContext('2d');
+
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: weekLabels,
+                datasets: [{
+                    label: '每日攝取熱量 (kcal)',
+                    data: weekData,
+                    backgroundColor: weekData.map(val => val > 2500 ? 'rgba(255, 99, 132, 0.7)' : 'rgba(92, 124, 250, 0.7)'),
+                    borderColor: weekData.map(val => val > 2500 ? 'rgba(255, 99, 132, 1)' : 'rgba(92, 124, 250, 1)'),
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '卡路里 (kcal)' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }, 
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `攝取：${context.raw} kcal`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    // --- 渲染一週飲水圖表 ---
+    // 來源：localStorage 的 water_history
+    // 格式：{ "YYYY-MM-DD": 1250, ... }（ml）
+    function renderWaterWeekChart(selectedDateStr) {
+      const selectedDate = new Date(selectedDateStr);
+      const day = selectedDate.getDay();
+      const diff = selectedDate.getDate() - day + (day === 0 ? -6 : 1);
+      const monday = new Date(selectedDate.setDate(diff));
+
+      const weekDates = [];
+      const weekLabels = [];
+      const weekData = [];
+      const weekDaysName = ["週一", "週二", "週三", "週四", "週五", "週六", "週日"];
+
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        const dStr = d.toISOString().split("T")[0];
+        weekDates.push(dStr);
+
+        const md = (d.getMonth() + 1) + "/" + d.getDate();
+        weekLabels.push(`${md} ${weekDaysName[i]}`);
+      }
+
+      // 讀取 localStorage water_history
+      let history = {};
+      try {
+        history = JSON.parse(localStorage.getItem("water_history") || "{}");
+      } catch (e) {
+        history = {};
+      }
+
+      weekDates.forEach(dateStr => {
+        const ml = Number(history[dateStr] || 0);
+        weekData.push(ml);
+      });
+
+      const ctx = document.getElementById("waterWeekChart").getContext("2d");
+
+      if (waterChart) waterChart.destroy();
+
+      waterChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: weekLabels,
+          datasets: [{
+            label: "每日飲水量 (ml)",
+            data: weekData,
+            backgroundColor: "rgba(77, 171, 247, 0.7)",
+            borderColor: "rgba(77, 171, 247, 1)",
+            borderWidth: 1,
+            borderRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: "飲水量 (ml)" }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `飲水：${context.raw} ml`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // ✅ 讓「一週飲水統計」自動更新：偵測 water_history 變了就重畫
+    let __lastWaterHistoryStr = localStorage.getItem("water_history") || "";
+
+    setInterval(() => {
+      const nowStr = localStorage.getItem("water_history") || "";
+      if (nowStr !== __lastWaterHistoryStr) {
+        __lastWaterHistoryStr = nowStr;
+
+        // 重新畫圖（用目前日期選擇器的值）
+        const dateStr = waterChartDateInput?.value;
+        if (dateStr) renderWaterWeekChart(dateStr);
+      }
+    }, 1000); // 每 1 秒檢查一次（夠用也不會卡）
+
+
+    // --- 表單送出 ---
+    document.getElementById('logForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const originalText = submitBtn.innerText;
+      const inputDate = formDateInput.value;
+
+      const newLog = {
+        date: inputDate,
+        meal: document.getElementById('mealInput').value,
+        food: document.getElementById('foodInput').value,
+        calories: Number(document.getElementById('caloriesInput').value)
+      };
+
+      if(GAS_URL) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "資料同步中...";
+
+        fetch(GAS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(newLog)
+        })
+        .then(response => response.json())
+        .then(data => {
+          submitBtn.innerText = "儲存成功！";
+          historyDateInput.value = inputDate;
+          chartDateInput.value = inputDate; 
+          loadLogsFromSheet();
+          
+          document.getElementById('foodInput').value = '';
+          document.getElementById('caloriesInput').value = '';
+          document.getElementById('recommendSelect').value = "";
+          
+          setTimeout(() => {
+             submitBtn.disabled = false;
+             submitBtn.innerText = originalText;
+          }, 1500);
+        })
+        .catch((error) => {
+          alert("連線錯誤");
+          submitBtn.disabled = false;
+          submitBtn.innerText = originalText;
+        });
+      } else {
+        alert("請設定 GAS_URL");
+      }
+    });
+
+    // --- 推薦選單 ---
+    function initRecommendDropdown() {
+        const select = document.getElementById('recommendSelect');
+        const hint = document.getElementById('noDataHint');
+        
+        let recipes = [];
+        try {
+          const cachedData = localStorage.getItem('today_recipes');
+          if (cachedData) {
+            recipes = JSON.parse(cachedData);
+          }
+        } catch (e) { console.error(e); }
+
+        select.innerHTML = '';
+        select.appendChild(new Option('-- 請選擇想吃的推薦料理 --', ''));
+
+        if (recipes.length > 0) {
+            recipes.forEach(item => {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(item); 
+                option.textContent = `${item.meal} - ${item.name} (${item.calories} kcal)`;
+                select.appendChild(option);
+            });
+            hint.style.display = 'none';
+        } else {
+            const option = document.createElement('option');
+            option.textContent = '(無推薦資料)';
+            option.disabled = true;
+            select.appendChild(option);
+            hint.style.display = 'block';
+        }
+
+        select.addEventListener('change', function() {
+            if (this.value) {
+                const item = JSON.parse(this.value);
+                document.getElementById('foodInput').value = item.name || '';
+                document.getElementById('caloriesInput').value = item.calories || '';
+                if(item.meal) {
+                   const mealSelect = document.getElementById('mealInput');
+                   if(item.meal.includes("早")) mealSelect.value = "早餐";
+                   else if(item.meal.includes("午")) mealSelect.value = "午餐";
+                   else if(item.meal.includes("晚")) mealSelect.value = "晚餐";
+                   else if(item.meal.includes("點") || item.meal.includes("茶")) mealSelect.value = "點心";
+                }
+                document.getElementById('foodInput').style.backgroundColor = "#e7f5ff";
+                setTimeout(() => document.getElementById('foodInput').style.backgroundColor = "", 500);
+            }
+        });
+    }
+  </script>
+
+</script>
+</body>
+</html>

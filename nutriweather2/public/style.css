@@ -1,0 +1,970 @@
+html {
+  scroll-behavior: smooth;
+}
+
+/* 全站基本設定 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+  background: #f4f5fb;
+  color: #222;
+  line-height: 1.6;
+}
+
+.container {
+  width: 92%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* 頁首與導覽列 */
+.site-header {
+  background: linear-gradient(135deg, #5c7cfa, #51cf66);
+  color: white;
+  padding: 16px 0 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header-content h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.subtitle {
+  margin: 4px 0 10px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+}
+
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 區塊與卡片 */
+.section {
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out;
+}
+
+/* 滑過卡片時微微浮起來 */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.16);
+  border-color: rgba(99, 102, 241, 0.65); /* 紫色一點點 */
+}
+
+
+.section h2 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.section h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #5c7cfa, #51cf66);
+}
+
+
+.section-desc {
+  margin-top: 4px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* 表單區 */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.form-group label {
+  font-weight: 600;
+}
+
+input[type="number"],
+input[type="text"],
+select,
+textarea {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* 按鈕 */
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.16s ease-out, box-shadow 0.16s ease-out,
+    transform 0.12s ease-out;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #5c7cfa, #51cf66);
+  color: white;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(76, 110, 245, 0.35);
+}
+
+.primary-btn:hover {
+  background: linear-gradient(135deg, #4c6ef5, #40c057);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(76, 110, 245, 0.45);
+}
+
+.secondary-btn {
+  background: #f1f3f5;
+  color: #222;
+  margin-top: 8px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+
+.secondary-btn:hover {
+  background: #e9ecef;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.16);
+}
+
+
+/* 今日推薦：天氣卡 + 三餐卡片 */
+.weather-card {
+  margin-bottom: 12px;
+  border-left: 4px solid #5c7cfa;
+}
+
+.weather-card h3 {
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+.weather-hint {
+  font-size: 12px;
+  color: #868e96;
+  margin-top: 6px;
+}
+
+
+.today-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.today-summary {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+  background: #edf2ff;        /* 淡淡的藍底 */
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+/* 今日推薦的三餐卡片 */
+.meal-card {
+  position: relative;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* 被選取的三餐卡片（查看詳情後） */
+.meal-card.active {
+  border-color: #51cf66 !important;
+  box-shadow: 0 0 0 2px rgba(81, 207, 102, 0.25);
+  background: #f8fff9;
+}
+
+
+/* 三餐卡片上方彩色細條 */
+.meal-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 4px;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(90deg, #5c7cfa, #51cf66);
+}
+
+.meal-card h3 {
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+.kcal {
+  font-size: 13px;
+  color: #4263eb;
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.desc {
+  font-size: 14px;
+  color: #495057;
+  line-height: 1.5;
+}
+
+/* 食譜詳情排版 */
+.recipe-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+  gap: 16px;
+}
+
+.recipe-image img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.recipe-info h3 {
+  margin-top: 0;
+  font-size: 18px;      /* 稍微變大 */
+  margin-bottom: 6px;
+}
+
+.recipe-info h4 {
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.recipe-info ul,
+.recipe-info ol {
+  padding-left: 18px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+/* 採買清單布局 */
+.shopping-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.shopping-input label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* 頁尾 */
+.site-footer {
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+  padding: 12px 0 20px;
+}
+
+/* RWD 手機調整 */
+@media (max-width: 720px) {
+  .recipe-layout,
+  .shopping-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .header-content h1 {
+    font-size: 22px;
+  }
+}
+/* 卡片基礎設定 */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 輕柔陰影 */
+  border: 1px solid #f0f0f0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative; /* 為了定位漸層條 */
+  overflow: hidden;   /* 確保圓角不被切掉 */
+}
+
+/* 讓輸入框的卡片不要有頂部漸層，只要結果卡片有 */
+.meal-card {
+  padding-top: 24px;
+}
+
+/* 截圖中的頂部彩色漸層條 */
+.meal-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px; /* 線條厚度 */
+  background: linear-gradient(90deg, #5c7cfa, #51cf66); /* 藍綠漸層 */
+}
+
+/* Hover 效果 */
+.meal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* 網格排版 (RWD) */
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* 文字樣式 */
+.meal-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 700;
+}
+
+.kcal {
+  color: #4263eb; /* 截圖中的藍紫色 */
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 12px 0;
+}
+
+.desc {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 按鈕微調 */
+.btn {
+  border-radius: 50px; /* 膠囊狀按鈕 */
+  padding: 10px 20px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none; /* 給 <a> 標籤用 */
+  transition: all 0.2s;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #5c7cfa, #51cf66);
+  color: white;
+  box-shadow: 0 4px 10px rgba(92, 124, 250, 0.3);
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.secondary-btn {
+  background: #f1f3f5;
+  color: #495057;
+}
+
+.secondary-btn:hover {
+  background: #e9ecef;
+}
+
+/* 輸入框樣式 */
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group input, 
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+  border-color: #5c7cfa;
+  box-shadow: 0 0 0 3px rgba(92, 124, 250, 0.1);
+}
+/* --- src/index.css --- */
+
+/* 全域基礎 */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f8f9fa; /* 淡灰背景 */
+  color: #333;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 卡片通用樣式 (白色底 + 陰影) */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+  margin-bottom: 24px;
+  position: relative; /* 為了漸層條定位 */
+  overflow: hidden;
+}
+
+/* 標題樣式 */
+h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* --- 表單佈局 (Form Grid) --- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自動RWD排版 */
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* 圓角輸入框 */
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #5c7cfa;
+  outline: none;
+}
+
+/* --- 按鈕樣式 --- */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px; /* 膠囊狀圓角 */
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.primary-btn {
+  background: linear-gradient(90deg, #5c7cfa, #51cf66); /* 藍綠漸層 */
+  color: white;
+  width: 100%; /* 手機版滿寬 */
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.secondary-btn {
+  background: #f1f3f5;
+  color: #555;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-top: auto; /* 推到卡片最下方 */
+}
+
+/* --- 三餐卡片 (Meal Card) 特效 --- */
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.meal-card {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.meal-card:hover {
+  transform: translateY(-5px); /* 滑鼠移過去稍微浮起來 */
+}
+
+/* 頂部彩色漸層條 */
+.meal-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #5c7cfa, #51cf66);
+}
+
+.meal-card h3 {
+  margin: 10px 0 5px 0;
+  font-size: 1.2rem;
+}
+
+.kcal {
+  color: #4263eb; /* 藍色字體 */
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.meal-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+/* ...原有的 CSS ... */
+
+/* --- 7. 食譜詳情區塊樣式 --- */
+
+/* 左右排版容器 */
+.recipe-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* 左邊佔 1等份，右邊佔 1.5等份 */
+  gap: 32px;
+  align-items: start;
+}
+
+/* 手機版：變成上下排列 */
+@media (max-width: 768px) {
+  .recipe-layout {
+    grid-template-columns: 1fr; /* 變成單欄 */
+  }
+}
+
+/* 食材與步驟列表 */
+.recipe-list {
+  padding-left: 20px;
+  color: #444;
+  line-height: 1.8;
+}
+
+.recipe-list li {
+  margin-bottom: 8px;
+}
+
+/* 詳情區的標題微調 */
+.recipe-info-col h3 {
+  color: #2c3e50;
+  border-left: 4px solid #5c7cfa; /* 左邊加一條藍線裝飾 */
+  padding-left: 10px;
+  margin-bottom: 12px;
+}
+
+/* ...原有的 CSS... */
+
+/* --- 8. 採買清單區塊樣式 --- */
+.shopping-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 左右各一半 */
+  gap: 32px;
+  align-items: start;
+}
+
+.shopping-input-col textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.shopping-list-col {
+  background-color: #f8f9fa; /* 淺灰背景區分 */
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* RWD: 手機版變成上下排 */
+@media (max-width: 768px) {
+  .shopping-layout {
+    grid-template-columns: 1fr;
+  }
+}
+/* ...原有的 CSS ... */
+
+/* --- 9. 飲食紀錄表格樣式 --- */
+.log-table-container {
+  overflow-x: auto; /* 手機版表格太寬可滑動 */
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.log-table th, 
+.log-table td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.log-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  white-space: nowrap; /* 標題不換行 */
+}
+
+.log-table tr:hover {
+  background-color: #f8f9fa;
+}
+/* --- 基礎設定 --- */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+  background-color: #f4f5fb;
+  color: #333;
+}
+
+.main-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* --- 卡片與區塊 --- */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eef0f2;
+  margin-bottom: 24px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.page-title {
+    border: none; 
+    margin: 0; 
+    font-size: 1.8rem; 
+    color: #4263eb;
+}
+
+/* --- 表單樣式 --- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+input, select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* 快速推薦選單區塊 */
+.recommend-box {
+    margin-bottom: 20px; 
+    background: #e7f5ff; 
+    padding: 15px; 
+    border-radius: 8px;
+}
+
+.recommend-label {
+    color: #1971c2; 
+    font-weight: bold;
+}
+
+#recommendSelect {
+  width: 100%;
+  margin-top: 5px;
+  cursor: pointer;
+  border: 2px solid #5c7cfa;
+  background-color: #f0f4ff;
+  color: #333;
+  font-weight: bold;
+}
+
+#noDataHint {
+    display: none; 
+    font-size: 0.8rem; 
+    color: #e03131; 
+    margin-top: 5px;
+}
+
+/* --- 按鈕樣式 --- */
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #5c7cfa, #51cf66);
+  color: white;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(92, 124, 250, 0.3);
+}
+
+.primary-btn:disabled {
+  background: #ccc;
+  cursor: wait;
+  box-shadow: none;
+}
+
+/* --- 表格樣式 --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+}
+
+.total-kcal {
+  color: #e03131;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #5c7cfa;
+  font-weight: bold;
+  display: none;
+}
+
+/* --- 歷史紀錄區塊 Header --- */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.history-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#historyDateInput {
+  padding: 5px 10px;
+  border: 1px solid #5c7cfa;
+  background-color: #e7f5ff;
+  color: #1971c2;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* --- Header 導覽列樣式 (從行內樣式移出) --- */
+.site-header {
+    background: linear-gradient(90deg, #5c7cfa 0%, #40c057 100%);
+    padding: 15px 0;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title h1 {
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.header-title .subtitle {
+    margin: 0;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.85rem;
+}
+
+.nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* 導覽列按鈕通用樣式 */
+.nav-link {
+    text-decoration: none;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+/* 首頁按鈕樣式 (預設透明白) */
+.nav-link.home {
+    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.1);
+}
+
+/* 飲食日記按鈕樣式 (當前頁面：透明背景+粗框) */
+.nav-link.active {
+    border: 2px solid white;
+    font-weight: bold;
+    background: transparent;
+}

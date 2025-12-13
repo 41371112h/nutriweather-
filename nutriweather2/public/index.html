@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>NutriWeather</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <!-- ------------------- Header ------------------- -->
+  <header class="site-header" style="
+      background: linear-gradient(90deg, #5c7cfa 0%, #40c057 100%);
+      padding: 15px 0;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+  ">
+    <div class="container header-content" style="
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    ">
+      <div class="header-left">
+        <h1 style="margin: 0; color: white; font-size: 1.5rem; font-weight: bold;">NutriWeather</h1>
+        <p class="subtitle" style="
+            margin: 0;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.85rem;">
+          根據天氣與你的目標推薦每天三餐
+        </p>
+      </div>
+
+      <nav class="nav" style="display: flex; gap: 12px; align-items: center;">
+        <a href="index.html" style="
+          text-decoration: none;
+          color: white;
+          border: 2px solid white;
+          padding: 6px 18px;
+          border-radius: 50px;
+          font-size: 0.95rem;
+          font-weight: bold;
+          background: transparent;
+          transition: background 0.2s;
+        ">首頁</a>
+
+        <a href="diet_log.html" style="
+          text-decoration: none;
+          color: rgba(255,255,255,0.9);
+          border: 1px solid rgba(255,255,255,0.6);
+          padding: 6px 18px;
+          border-radius: 50px;
+          font-size: 0.95rem;
+          background: rgba(255,255,255,0.15);
+          transition: background 0.2s;
+        ">飲食日記</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ------------------- Main Content ------------------- -->
+  <main class="container" style="max-width: 980px; margin: 40px auto; padding: 0 20px;">
+
+    <!-- React Root #1：主 App（含 Gemini 聊天室）-->
+    <div id="root"></div>
+
+    <!-- React Root #2：Personal Form -->
+    <div id="personal-root"></div>
+
+    <!-- React Root #3：Weather Card -->
+    <div id="weather-root"></div>
+
+    <!-- React Root #4：Recipe Recommend -->
+    <div id="recommend-root"></div>
+
+    <div class="meal-grid"></div>
+    <div id="nutrition-root"></div>
+
+  </main>
+
+  <!-- ------------------- Footer ------------------- -->
+  <footer class="site-footer" style="
+      text-align: center;
+      margin-top: 40px;
+      color: #adb5bd;
+      padding-bottom: 20px;">
+    <div class="container" style="max-width: 980px; margin: 0 auto;">
+      <p>NutriWeather — Demo Prototype · 由 何佳恩、蔡欣育 製作</p>
+    </div>
+  </footer>
+
+  <!-- ⚠️ ❌ 移除：main.js（避免與 React 衝突） -->
+  <!-- <script src="main.js"></script> -->
+
+</body>
+</html>
+=
